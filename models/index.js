@@ -6,6 +6,7 @@ var Sequelize = require("sequelize");
 var basename = path.basename(module.filename);
 var sequelize = new Sequelize(process.env.JAWSDB_URL, {
   dialect: 'mysql',
+  logging: false,
   define: {
     //prevent sequelize from pluralizing table names
     freezeTableName: true
