@@ -4,7 +4,8 @@ module.exports = function (sequelize, DataTypes) {
     var Plan = sequelize.define('Plan', {
         Sub_id: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         }, //  Students primary key 
         Sub_name: { type: DataTypes.STRING, allowNull: false }, // academic name
         Level: { type: DataTypes.INTEGER },
