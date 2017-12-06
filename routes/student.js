@@ -6,14 +6,18 @@ var models = require('../models');
 
 
 /* POST Student Create. */
-router.post('/stuCreate', function (req, res, next) {
+router.post('/stuAdd', function (req, res, next) {
+  var StuData = req.body.StuData;
 
-  var stuId = req.body.stuId;
-  var stuPassword = req.body.stuPassword;
-  var stuName = req.body.stuName;
-  var stuDepartment = req.body.stuDepartment;
-  var stuLevel = req.body.stuLevel;
-  var stuAcAdv = req.body.stuAcAdv;
+  var stuId = StuData.Stu_id;
+  var stuName = StuData.Stu_name;
+  var stuLevel = StuData.Level;
+  var stuDepartment = StuData.Dep_id;
+
+
+  var stuPassword = StuData.password;
+
+  var stuAcAdv = StuData.Aca_id;
 
   models.Students.findOrCreate({
     where: { Stu_id: stuId },
@@ -26,10 +30,10 @@ router.post('/stuCreate', function (req, res, next) {
     }
   })
     .spread((student, created) => {
-      console.log(student.get({
-        plain: true
-      }))
-      console.log(created)
+      // console.log(student.get({
+      //   plain: true
+      // }))
+      // console.log(created)
       if (created) {
         student.getDepartment()
           .then(function (department) {
@@ -49,18 +53,28 @@ router.post('/stuCreate', function (req, res, next) {
 
 /* POST Student Login. */
 router.post('/stuLogin', function (req, res, next) {
-  var stuId = req.body.stuId;
-  var stuPassword = req.body.stuPassword;
+  var StuData = req.body.StuData;
+
+  var stuId = StuData.Stu_id;
+  var stuPassword = StuData.password;
+
   if (!(stuId && stuPassword)) return res.send({ error: "error missing params" });
 
-  models.Students.findOne({ where: { Stu_id: stuId, password: stuPassword } })
+  models.Students.findOne({
+    where: { Stu_id: stuId, password: stuPassword },
+    include: [
+      // include department
+      { model: models.Department }
+    ]
+  })
     .then(student => {
       // 
-      student.getDepartment()
-        .then(function (department) {
-          student.dataValues.Dep_name = department.Dep_name;
-          res.send({ student: student });
-        })
+      if (!student) {
+        res.send({ error: "Student not found with matching data!" });
+    } else {
+
+      res.send({ student: student });
+    }
     }).catch(function () {
       res.send({ error: "Unexpected error please try again!" });
     })
