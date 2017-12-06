@@ -9,15 +9,21 @@ module.exports = function (sequelize, DataTypes) {
         }, //  Students primary key 
         Sub_name: { type: DataTypes.STRING, allowNull: false }, // academic name
         Level: { type: DataTypes.INTEGER },
-        Hour: { type: DataTypes.STRING, allowNull: false }, // academic advisory's password
-        Sub_dep: { type: DataTypes.INTEGER },
-        pre_req_id: { type: DataTypes.INTEGER },
-        pre_req_name: { type: DataTypes.STRING }
+        Hour: { type: DataTypes.INTEGER, allowNull: false }
     });
     Plan.associate = function (models) {
         models.Plan.hasMany(models.SubStu, {
             foreignKeyConstraint: true,
             foreignKey: 'Sub_id'
+        });
+        models.Plan.hasOne(models.Plan, {
+            foreignKeyConstraint: true,
+            foreignKey: 'Pre_req_id',
+            as: "Subject"
+        });
+        models.Plan.belongsTo(models.Department, {
+            foreignKeyConstraint: true,
+            foreignKey: 'Dep_id'
         });
     }
     return Plan;
