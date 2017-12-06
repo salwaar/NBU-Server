@@ -88,7 +88,7 @@ router.post('/stuEdit', function (req, res, next) {
   var stuLevel = StuData.Level;
   var stuDepartment = StuData.Department.Dep_id;
 
-
+var oldStuId = StuData.oldStuId;
 
   if (!stuId) return res.send({ error: "error missing params" });
 
@@ -97,7 +97,7 @@ router.post('/stuEdit', function (req, res, next) {
     Stu_name: stuName,
     Dep_id: stuDepartment,
     Level: stuLevel
-  }, { where: { Stu_id: stuId } })
+  }, { where: { Stu_id: oldStuId } })
     .then(count => {
 
       res.send(count);
