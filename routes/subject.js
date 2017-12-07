@@ -98,6 +98,7 @@ router.post('/allSubjects', function (req, res, next) {
 
 });
 
+// adding/pass/fail subject to students by advisor
 router.post('/subStuEdit', function (req, res, next) {
     var SubStuData = req.body.SubStuData;
 
