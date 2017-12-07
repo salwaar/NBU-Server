@@ -59,7 +59,7 @@ router.post('/mySubjects', function (req, res, next) {
             [models.Plan, 'Level', 'DESC'],],
         include: [
             // include the subjects
-            { model: models.Plan, include: [models.Department,  { model: models.Plan, attributes: ["Sub_name", "Sub_id"], as: 'Subject' },] }
+            { model: models.Plan, include: [models.Department, { model: models.Plan, attributes: ["Sub_name", "Sub_id"], as: 'Subject' },] }
         ]
     })
         .then(subjects => {
@@ -98,4 +98,31 @@ router.post('/allSubjects', function (req, res, next) {
 
 });
 
+router.post('/subStuEdit', function (req, res, next) {
+    var SubStuData = req.body.SubStuData;
+
+    var stuId = SubStuData.Stu_id;
+    var subId = SubStuData.Sub_id;
+    var subStuStatus = SubStuData.Status;
+
+
+    if (!(stuId && subId)) return res.send({ error: "error missing params" });
+
+    models.SubStu.findOrCreate({
+        where: { Stu_id: stuId, Sub_id: subId },
+        defaults: {
+            Status: subStuStatus
+        }
+    })
+        .spread((subStu, created) => {
+
+            if (created) {
+                res.send({ subStu: subStu });
+            } else {
+                res.send({ error: "Subject for this Student already exists!" });
+            }
+        }).catch(function (error) {
+            res.send({ error: "Unexpected error please try again!" });
+        })
+});
 module.exports = router;

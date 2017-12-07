@@ -71,10 +71,10 @@ router.post('/stuLogin', function (req, res, next) {
       // 
       if (!student) {
         res.send({ error: "Student not found with matching data!" });
-    } else {
+      } else {
 
-      res.send({ student: student });
-    }
+        res.send({ student: student });
+      }
     }).catch(function () {
       res.send({ error: "Unexpected error please try again!" });
     })
@@ -88,7 +88,7 @@ router.post('/stuEdit', function (req, res, next) {
   var stuLevel = StuData.Level;
   var stuDepartment = StuData.Department.Dep_id;
 
-var oldStuId = StuData.oldStuId;
+  var oldStuId = StuData.oldStuId;
 
   if (!stuId) return res.send({ error: "error missing params" });
 
