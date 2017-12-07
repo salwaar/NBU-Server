@@ -19,7 +19,7 @@ module.exports = function (sequelize, DataTypes) {
 
         models.Req_Stu.belongsTo(models.ACA_ADV, {
             foreignKeyConstraint: true,
-            foreignKey: 'Aca_ID'
+            foreignKey: 'Aca_id'
         });
     }
     return Req_Stu;
