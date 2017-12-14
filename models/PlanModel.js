@@ -6,8 +6,8 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
-        }, //  Students primary key 
-        Sub_name: { type: DataTypes.STRING, allowNull: false }, // academic name
+        }, 
+        Sub_name: { type: DataTypes.STRING, allowNull: false }, 
         Level: { type: DataTypes.INTEGER },
         Hour: { type: DataTypes.INTEGER, allowNull: false }
     });

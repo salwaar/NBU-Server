@@ -5,7 +5,7 @@ module.exports = function (sequelize, DataTypes) {
         Stu_id: {
             type: DataTypes.INTEGER
         }, //  department primary key 
-        Sub_id: { type: DataTypes.INTEGER, allowNull: false }, // department name
+        Sub_id: { type: DataTypes.INTEGER, allowNull: false }, 
         Status: { type: DataTypes.STRING, allowNull: false } // either Failed, Succeed or Studying
     });
     SubStu.associate = function (models) {

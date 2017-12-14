@@ -109,21 +109,16 @@ router.post('/subStuEdit', function (req, res, next) {
 
     if (!(stuId && subId)) return res.send({ error: "error missing params" });
 
-    models.SubStu.findOrCreate({
-        where: { Stu_id: stuId, Sub_id: subId },
-        defaults: {
-            Status: subStuStatus
-        }
-    })
-        .spread((subStu, created) => {
-
-            if (created) {
-                res.send({ subStu: subStu });
-            } else {
-                res.send({ error: "Subject for this Student already exists!" });
-            }
-        }).catch(function (error) {
-            res.send({ error: "Unexpected error please try again!" });
-        })
+    models.SubStu.upsert({
+        Stu_id: stuId, 
+        Sub_id: subId ,
+        Status: subStuStatus
+         
+     })
+         .then((created) => {
+                 res.send({ subStu: created });
+         }).catch(function (error) {
+             res.send({ error: "Unexpected error please try again!" });
+         })
 });
 module.exports = router;
